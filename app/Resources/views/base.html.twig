@@ -67,7 +67,11 @@
     <!-- /.container -->
 </nav>
 
-{% block body %}{% endblock %}
+{% block body %}
+    {% for flash_message in app.session.flashBag.get('success') %}
+        <div class="alert alert-success" role="alert">{{ flash_message }}</div>
+    {% endfor %}
+{% endblock %}
 
 <hr>
 
