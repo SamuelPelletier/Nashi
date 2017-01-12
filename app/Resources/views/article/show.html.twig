@@ -21,6 +21,8 @@
 
     {{ parent() }}
 
+    <a class="btn btn-success pull-right" href="{{ path('article_update', {'id': article.id}) }}">Update this article</a>
+
 <!-- Post Content -->
 <article>
     <div class="container">

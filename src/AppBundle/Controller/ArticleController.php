@@ -19,14 +19,13 @@ class ArticleController extends Controller
      */
     public function homepageAction()
     {
-        return $this->render('article/index.html.twig');
+        return $this->render('article/index.html.twig', ['articles' => $this->getDoctrine()->getRepository('AppBundle:Article')->findAll()]);
     }
 
     /**
      * @Route(
      *     "/{id}",
      *     requirements={"id" = "\d+"},
-     *     defaults={"id" = 1},
      *     name="article_show"
      * )
      */
@@ -55,7 +54,7 @@ class ArticleController extends Controller
 
             $this->addFlash('success', 'The article was successfully saved in database!');
 
-            return $this->redirectToRoute('article_homepage');
+            return $this->redirectToRoute('article_show', ['id' => $article->getId()]);
         }
 
         return $this->render('article/add.html.twig', ['articleForm' => $form->createView()]);
@@ -79,11 +78,13 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $this->get('image.uploader')->upload($article);
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('success', 'The article was successfully updated in database!');
 
-            return $this->redirectToRoute('article_homepage');
+            return $this->redirectToRoute('article_show', ['id' => $article->getId()]);
         }
 
         return $this->render('article/add.html.twig', [
