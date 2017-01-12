@@ -50,6 +50,10 @@
 
                 {{ form_row(articleForm.author) }}
                 {{ form_row(articleForm.headerImage) }}
+
+                {% if 'article_update' == app.request.get('_route') %}
+                    Old image: <img src="{{ oldArticleImage }}" width="200" />
+                {% endif %}
                 {{ form_row(articleForm.content) }}
 
                 <input class="btn btn-success pull-right" type="submit" value="{{ submitButton }}" />

@@ -6,6 +6,7 @@ use AppBundle\Entity\Article;
 use AppBundle\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -45,6 +46,8 @@ class ArticleController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
+            $this->get('image.uploader')->upload($article);
+
             $em = $this->getDoctrine()->getManager();
 
             $em->persist($article);
@@ -65,10 +68,14 @@ class ArticleController extends Controller
      *     requirements={"id" = "\d+"}
      * )
      */
-    public function updateAction(Article $article, Request $request)
+    public function updateAction(Request $request, Article $article)
     {
-        $form = $this->createForm(ArticleType::class, $article);
+        $articleImgPath = $article->getHeaderImage();
+        $article->setHeaderImage(
+            new File($this->getParameter('file_path').$articleImgPath)
+        );
 
+        $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -82,6 +89,7 @@ class ArticleController extends Controller
         return $this->render('article/add.html.twig', [
             'articleForm' => $form->createView(),
             'article' => $article,
+            'oldArticleImage' => $articleImgPath
         ]);
     }
 }
