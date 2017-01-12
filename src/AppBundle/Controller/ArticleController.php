@@ -79,6 +79,9 @@ class ArticleController extends Controller
 
         if ($form->isValid()) {
             $this->get('image.uploader')->upload($article);
+            if(!$article->getHeaderImage()) {
+                $article->setHeaderImage($articleImgPath);
+            }
 
             $this->getDoctrine()->getManager()->flush();
 
