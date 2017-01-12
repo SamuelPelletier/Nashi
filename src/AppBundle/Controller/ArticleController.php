@@ -70,9 +70,11 @@ class ArticleController extends Controller
     public function updateAction(Request $request, Article $article)
     {
         $articleImgPath = $article->getHeaderImage();
-        $article->setHeaderImage(
-            new File($this->getParameter('file_path').$articleImgPath)
-        );
+        if (null != $articleImgPath) {
+            $article->setHeaderImage(
+                new File($this->getParameter('file_path').$articleImgPath)
+            );
+        }
 
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);

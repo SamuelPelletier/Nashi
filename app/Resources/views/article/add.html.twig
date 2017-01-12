@@ -51,7 +51,7 @@
                 {{ form_row(articleForm.author) }}
                 {{ form_row(articleForm.headerImage) }}
 
-                {% if 'article_update' == app.request.get('_route') %}
+                {% if 'article_update' == app.request.get('_route') and article.headerImage %}
                     Old image: <img src="{{ oldArticleImage }}" width="200" />
                 {% endif %}
                 {{ form_row(articleForm.content) }}
