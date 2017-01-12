@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use Ivory\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,7 +22,7 @@ class ArticleType extends AbstractType
                 'label' => 'Upload the header file'
             ])
             ->add('author')
-            ->add('content')
+            ->add('content', CKEditorType::class)
          ;
     }
 }

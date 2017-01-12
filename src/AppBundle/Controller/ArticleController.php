@@ -30,9 +30,9 @@ class ArticleController extends Controller
      *     name="article_show"
      * )
      */
-    public function showAction()
+    public function showAction(Article $article)
     {
-        return $this->render('article/show.html.twig');
+        return $this->render('article/show.html.twig', ['article' => $article]);
     }
 
     /**
