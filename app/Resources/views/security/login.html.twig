@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <header class="intro-header" style="background-image: url('{{ asset('bundles/clean-blog/img/home-bg.jpg') }}')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="site-heading">
+                        <h1>Clean Blog</h1>
+                        <hr class="small">
+                        <span class="subheading">A Clean Blog Theme by Start Bootstrap</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {{ parent() }}
+
+    <h1>Identify yourself</h1>
+    <div class="container">
+        <div class="row">
+            <form class="form-group" action="{{ path('authentication_check') }}" method="POST">
+                <label for="username">Username:</label>
+                <input class="form-control" type="text" id="username" name="username" value="" />
+
+                <label for="password">Password:</label>
+                <input class="form-control" type="password" id="password" name="password" />
+
+                <input type="submit"  class="btn btn-success pull-right"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}
