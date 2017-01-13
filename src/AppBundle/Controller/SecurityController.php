@@ -12,7 +12,14 @@ class SecurityController extends Controller
      */
     public function loginAction()
     {
-        return $this->render('security/login.html.twig');
+        $authUtils = $this->get('security.authentication_utils');
+
+        // Get the last authentication error, if occured.
+        $error = $authUtils->getLastAuthenticationError();
+
+        return $this->render('security/login.html.twig', [
+            'auth_error' => $error
+        ]);
     }
 
     /**
@@ -20,6 +27,14 @@ class SecurityController extends Controller
      */
     public function authenticationCheckAction()
     {
-        // This code will never be hitted
+        // This code will never be executed
+    }
+
+    /**
+     * @Route("/article/admin/logout", name="logout")
+     */
+    public function logoutaction()
+    {
+        // This code will never be executed
     }
 }

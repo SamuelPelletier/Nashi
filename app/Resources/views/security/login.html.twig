@@ -18,6 +18,10 @@
 
     {{ parent() }}
 
+    {% if auth_error %}
+        <div class="alert alert-danger" role="alert">{{ auth_error.message }}</div>
+    {% endif %}
+
     <h1>Identify yourself</h1>
     <div class="container">
         <div class="row">
