@@ -9,6 +9,9 @@ security:
                     sarah:
                         password: $2y$13$U0nxW0S5I8n1AWXCn/KDg.spWYSRKQFYrUpnxD3sNJp04x6FMGdYW  #my_password
                         roles: 'ROLE_USER'
+                    sarahadmin:
+                        password: $2y$13$U0nxW0S5I8n1AWXCn/KDg.spWYSRKQFYrUpnxD3sNJp04x6FMGdYW  #my_password
+                        roles: 'ROLE_ADMIN'
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -19,6 +22,10 @@ security:
         login:
             pattern: /login
             security: false
+
+        homepage:
+            pattern: ^/article/$
+            anonymous: ~
 
         secured_area:
             pattern: ^/ # For every request having a uri beginning with /article/admin, the firewall is activated.
@@ -36,3 +43,7 @@ security:
 
         main:
             anonymous: ~
+
+    access_control:
+         - { path: ^/article/admin, roles: ROLE_ADMIN }
+         - { path: ^/article/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
