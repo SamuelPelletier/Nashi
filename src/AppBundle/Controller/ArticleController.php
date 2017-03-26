@@ -7,7 +7,12 @@ use AppBundle\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 /**
  * @Route("/article")
@@ -19,7 +24,13 @@ class ArticleController extends Controller
      */
     public function homepageAction()
     {
-        return $this->render('article/index.html.twig', ['articles' => $this->getDoctrine()->getRepository('AppBundle:Article')->findAll()]);
+        $articles = $this->getDoctrine()->getManager()->getRepository('AppBundle:Article')->findAll();
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($articles, 'json');
+        return new JsonResponse($jsonContent, 200, array('bob'=>1), true);
     }
 
     /**

@@ -46,4 +46,4 @@ security:
 
     access_control:
          - { path: ^/article/admin, roles: ROLE_ADMIN }
-         - { path: ^/article/$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/article/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
