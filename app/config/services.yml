@@ -10,3 +10,5 @@ services:
         arguments:
             - %file_path%%file_web_path%
             - %file_web_path%
+    app.wit:
+        class: AppBundle\Service\WitImpl
