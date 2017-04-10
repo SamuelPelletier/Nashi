@@ -22,23 +22,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/ingredient")
+ * @Route("/user")
  */
-class IngredientController extends Controller
+class UserController extends Controller
 
 {
 
     /**
-     * @Route("/post/{id}/", name="post_ingredient")
+     * @Route("/post/", name="post_user")
      */
     public function postAction($id,Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        /** @var User $user */
-        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneById($id);
-        if(is_null($user)){
-            return new JsonResponse('Utilisateur non trouvé', 400, array('Response' => "ko"), false);
-        }
         $ingredients = $request->getContent();
 
         $encoders = array(new XmlEncoder(), new JsonEncoder());
@@ -68,24 +63,18 @@ class IngredientController extends Controller
     }
 
     /**
-     * @Route("/get/{id}/",requirements={"id" = "\d+"}, name="get_ingredient")
+     * @Route("/get/{id}/",requirements={"id" = "\d+"}, name="get_user")
      */
     public function getAction($id,Request $request)
     {
         /** @var User $user */
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneById($id);
-        /** @var IngredientStorage $ingredients */
-        $ingredientStorage = $this->getDoctrine()->getRepository('AppBundle:IngredientStorage')->findBy(array('user' => $user));
-        $storage = array();
-        foreach ($ingredientStorage as $ingredients){
-            /** @var Ingredient $ingredient */
-            $storage[$ingredients->getIngredient()->getName()] = array('amount'=> $ingredients->getAmount(),'unit'=>$ingredients->getIngredient()->getUnitMesure());
-        }
+
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize($storage, 'json');
+        $jsonContent = $serializer->serialize($user, 'json');
         if ($jsonContent === array()){
             return new JsonResponse($jsonContent, 400, array('Response'=>"ko"), false);
         }else {
