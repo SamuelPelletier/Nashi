@@ -16,3 +16,5 @@
 .idea
 /web/uploads
 /web/bundles/ivoryckeditor
+/composer.phar
+/index.php
