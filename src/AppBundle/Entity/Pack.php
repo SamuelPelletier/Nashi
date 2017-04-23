@@ -9,12 +9,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table
  */
-class Ingredient
+class Pack
 {
-    const UNIT_LITER = 1;
-    const UNIT_GRAM = 2;
-    const UNIT_PIECE = 3;
-
 
     /**
      * @ORM\Column(type="integer")
@@ -34,13 +30,14 @@ class Ingredient
     private $language;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="array")
      */
-    private $UnitMesure;
+    private $recipeList;
 
 
     public function __construct()
     {
+        $this->recipeList = array();
     }
 
 
@@ -102,27 +99,28 @@ class Ingredient
         return $this->language;
     }
 
+
     /**
-     * Set unitMesure
+     * Set recipeList
      *
-     * @param integer $unitMesure
+     * @param array $recipeList
      *
-     * @return Ingredient
+     * @return Pack
      */
-    public function setUnitMesure($unitMesure)
+    public function setRecipeList($recipeList)
     {
-        $this->UnitMesure = $unitMesure;
+        $this->recipeList = $recipeList;
 
         return $this;
     }
 
     /**
-     * Get unitMesure
+     * Get recipeList
      *
-     * @return integer
+     * @return array
      */
-    public function getUnitMesure()
+    public function getRecipeList()
     {
-        return $this->UnitMesure;
+        return $this->recipeList;
     }
 }
