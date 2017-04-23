@@ -1,0 +1,46 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table
+ */
+class Ingredient
+{
+    const UNIT_LITER = 1;
+    const UNIT_GRAM = 2;
+    const UNIT_PIECE = 3;
+
+
+    /**
+     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $language;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $UnitMesure;
+
+
+    public function __construct()
+    {
+    }
+
+}
