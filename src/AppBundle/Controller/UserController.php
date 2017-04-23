@@ -8,8 +8,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Ingredient;
-use AppBundle\Entity\IngredientStorage;
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -31,34 +29,24 @@ class UserController extends Controller
     /**
      * @Route("/post/", name="post_user")
      */
-    public function postAction($id,Request $request)
+    public function postAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $ingredients = $request->getContent();
-
+        $user = $request->getContent();
+        var_dump($user);
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
-        $data = $serializer->decode($ingredients, 'json');
-        foreach ($data['ingredient'] as $ingredientName => $item) {
-            $ingredient = $this->getDoctrine()->getRepository('AppBundle:Ingredient')->findOneBy(array('name'=>$ingredientName));
-            if($ingredient === array() || is_null($ingredient)) {
-                $ingredient = new Ingredient();
-                $ingredient->setName($ingredientName);
-                $ingredient->setUnitMesure($item['unit']);
-                $ingredient->setLanguage($data['language']);
-                $em->persist($ingredient);
-            }
-            $storage = new IngredientStorage();
-            $storage->setAmount($item['amount']);
-            $storage->setIngredient($ingredient);
-            $storage->setUser($user);
+        $data = $serializer->decode($user, 'json');
+        $userBDD = new User();
+        $userBDD->setEmail($data['email']);
+        $userBDD->setGoogleToken($data['token']);
 
-            $em->persist($storage);
-            $em->flush();
+        $em->persist($userBDD);
+        $em->flush();
 
-        }
+
         return new JsonResponse("Aucune erreur", 200, array('Response' => "ok"), true);
     }
 
