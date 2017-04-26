@@ -32,10 +32,14 @@ class WitController extends Controller
     {
         $witImpl = $this->get('app.wit');
         $message = $request->query->get('message');
+        $language = $request->query->get('language');
         if($message === null || $message === ""){
             return new JsonResponse(array(), 400, array('Response'=>"ko"), false);
         }
-        $data = $witImpl->connect('fr', $message);
+        if($language === null ||$language===""){
+            $language = 'EN';
+        }
+        $data = $witImpl->connect($language, $message);
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
 

@@ -21,7 +21,7 @@ class Recipe
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $idRecipe;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -45,13 +45,13 @@ class Recipe
     /**
      * Set name
      *
-     * @param string $name
+     * @param string $idRecipe
      *
      * @return Recipe
      */
-    public function setName($name)
+    public function setIdRecipe($idRecipe)
     {
-        $this->name = $name;
+        $this->idRecipe = $idRecipe;
 
         return $this;
     }
@@ -61,9 +61,9 @@ class Recipe
      *
      * @return string
      */
-    public function getName()
+    public function getIdRecipe()
     {
-        return $this->name;
+        return $this->idRecipe;
     }
 
     /**

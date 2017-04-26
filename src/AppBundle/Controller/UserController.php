@@ -68,4 +68,24 @@ class UserController extends Controller
             return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
         }
     }
+
+    /**
+     * @Route("/google/{token}/", name="get_google_user")
+     */
+    public function getGoogleAction($token,Request $request)
+    {
+        $clientGoogle = $this->get('app.google');
+        $user = $clientGoogle->getUser($token);
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($user, 'json');
+        if ($jsonContent === array()){
+            return new JsonResponse($jsonContent, 400, array('Response'=>"ko"), false);
+        }else {
+            return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
+        }
+    }
 }

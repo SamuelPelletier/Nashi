@@ -12,3 +12,7 @@ services:
             - %file_web_path%
     app.wit:
         class: AppBundle\Service\WitImpl
+    app.google:
+        class: AppBundle\Service\GoogleImpl
+    app.pack:
+        class: AppBundle\Service\PackImpl
