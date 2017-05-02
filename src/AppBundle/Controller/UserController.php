@@ -47,8 +47,11 @@ class UserController extends Controller
         $em->persist($userBDD);
         $em->flush();
 
+        /** @var User $user */
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('email'=>$data['email']));
+
         $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize(array('id'=>$userBDD->getId()), 'json');
+        $jsonContent = $serializer->serialize(array('id'=>$user->getId()), 'json');
         return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
     }
 
