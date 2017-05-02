@@ -71,4 +71,28 @@ class ShopTransaction
     {
         return $this->user;
     }
+
+    /**
+     * Set pack
+     *
+     * @param \AppBundle\Entity\Pack $pack
+     *
+     * @return ShopTransaction
+     */
+    public function setPack(\AppBundle\Entity\Pack $pack = null)
+    {
+        $this->pack = $pack;
+
+        return $this;
+    }
+
+    /**
+     * Get pack
+     *
+     * @return \AppBundle\Entity\Pack
+     */
+    public function getPack()
+    {
+        return $this->pack;
+    }
 }

@@ -28,6 +28,16 @@ class User
      */
     private $googleToken;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $firstname;
+
 
 
     public function __construct()

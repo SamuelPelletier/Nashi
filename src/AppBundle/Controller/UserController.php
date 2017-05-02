@@ -41,12 +41,15 @@ class UserController extends Controller
         $userBDD = new User();
         $userBDD->setEmail($data['email']);
         $userBDD->setGoogleToken($data['token']);
+        $userBDD->setFirstname($data['firstname']);
+        $userBDD->setLastname($data['lastname']);
 
         $em->persist($userBDD);
         $em->flush();
 
-
-        return new JsonResponse("Aucune erreur", 200, array('Response' => "ok"), true);
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize(array('id'=>$userBDD->getId()), 'json');
+        return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
     }
 
     /**

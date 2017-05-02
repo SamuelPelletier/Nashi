@@ -67,4 +67,24 @@ class ShopController extends Controller
             return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
         }
     }
+
+    /**
+     * @Route("/get/", name="get_all_pack")
+     */
+    public function getAllAction(Request $request)
+    {
+        /** @var Pack $pack */
+        $pack = $this->getDoctrine()->getRepository('AppBundle:Pack')->findAll();
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($pack, 'json');
+        if ($jsonContent === array()){
+            return new JsonResponse($jsonContent, 400, array('Response'=>"ko"), false);
+        }else {
+            return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
+        }
+    }
 }
