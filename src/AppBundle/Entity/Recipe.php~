@@ -6,9 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\RecipeRepository")
  * @ORM\Table
  */
+
 class Recipe
 {
     /**
@@ -21,12 +22,27 @@ class Recipe
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $idRecipe;
+    private $idAPI;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $type;
+    private $name;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $time;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $rate;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $cuisine;
 
     public function __construct()
     {
@@ -43,15 +59,39 @@ class Recipe
     }
 
     /**
-     * Set name
+     * Set idAPI
      *
-     * @param string $idRecipe
+     * @param string $idAPI
      *
      * @return Recipe
      */
-    public function setIdRecipe($idRecipe)
+    public function setIdAPI($idAPI)
     {
-        $this->idRecipe = $idRecipe;
+        $this->idAPI = $idAPI;
+
+        return $this;
+    }
+
+    /**
+     * Get idAPI
+     *
+     * @return string
+     */
+    public function getIdAPI()
+    {
+        return $this->idAPI;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Recipe
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
 
         return $this;
     }
@@ -61,32 +101,80 @@ class Recipe
      *
      * @return string
      */
-    public function getIdRecipe()
+    public function getName()
     {
-        return $this->idRecipe;
+        return $this->name;
     }
 
     /**
-     * Set type
+     * Set time
      *
-     * @param string $type
+     * @param integer $time
      *
      * @return Recipe
      */
-    public function setType($type)
+    public function setTime($time)
     {
-        $this->type = $type;
+        $this->time = $time;
 
         return $this;
     }
 
     /**
-     * Get type
+     * Get time
      *
-     * @return string
+     * @return integer
      */
-    public function getType()
+    public function getTime()
     {
-        return $this->type;
+        return $this->time;
+    }
+
+    /**
+     * Set rate
+     *
+     * @param integer $rate
+     *
+     * @return Recipe
+     */
+    public function setRate($rate)
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * Get rate
+     *
+     * @return integer
+     */
+    public function getRate()
+    {
+        return $this->rate;
+    }
+
+    /**
+     * Set cuisine
+     *
+     * @param array $cuisine
+     *
+     * @return Recipe
+     */
+    public function setCuisine($cuisine)
+    {
+        $this->cuisine = $cuisine;
+
+        return $this;
+    }
+
+    /**
+     * Get cuisine
+     *
+     * @return array
+     */
+    public function getCuisine()
+    {
+        return $this->cuisine;
     }
 }

@@ -1,0 +1,30 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: Samuel
+ * Date: 15/05/2017
+ * Time: 16:26
+ */
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\RecipeRepository")
+ */
+class RecipeRepository extends EntityRepository
+{
+    public function getRecipeByName($name){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('ri')
+            ->from('RecipeIngredient', 'ri')
+            ->where("ri.name like '%:name%'")
+            ->setParameter('name', $name);
+        $qb->setMaxResults(1);
+
+        return $qb->getQuery()->getResult();
+    }
+}
