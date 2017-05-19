@@ -19,33 +19,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/wit")
+ * @Route("/wecook")
  */
-class WitController extends Controller
+class WeCookController extends Controller
 
 {
 
     /**
-     * @Route("/", name="wit_homepage")
+     * @Route("/", name="wecook_homepage")
      */
     public function homepageAction(Request $request)
     {
-        $witImpl = $this->get('app.wit');
-        $message = $request->query->get('message');
-        $language = $request->query->get('language');
-        if($message === null || $message === ""){
-            return new JsonResponse(array(), 400, array('Response'=>"ko"), false);
-        }
-        if($language === null ||$language===""){
-            $language = 'EN';
-        }
-        $data = $witImpl->connect($language, $message);
-        dump($data);
+        $wecookImpl = $this->get('app.wecook');
+        $data = $wecookImpl->callWecook();
+
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
 
         $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize($data['entities'], 'json');
+        $jsonContent = $serializer->serialize($data, 'json');
         if ($jsonContent === array()){
             return new JsonResponse($jsonContent, 400, array('Response'=>"ko"), false);
         }else {

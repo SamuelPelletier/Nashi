@@ -12,6 +12,8 @@ services:
             - %file_web_path%
     app.wit:
         class: AppBundle\Service\WitImpl
+    app.wecook:
+            class: AppBundle\Service\WeCookImpl
     app.google:
         class: AppBundle\Service\GoogleImpl
     app.pack:
