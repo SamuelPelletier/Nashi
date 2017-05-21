@@ -14,7 +14,7 @@ use Tgallice\Wit\MessageApi;
 class WitImpl
 {
     public function connect($language,$sentence){
-        if(strtoupper($language == 'FR')){
+        if(strtoupper($language )== 'FR'){
             $token = '43S6T5VI7QEPF36C6BPXOTRSY46JF66G';
         }else{
             $token = '5E2VLGDLHTVA6LKFKMOTHX3DY7UB2544';

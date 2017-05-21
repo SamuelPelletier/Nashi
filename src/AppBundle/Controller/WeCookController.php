@@ -26,12 +26,36 @@ class WeCookController extends Controller
 {
 
     /**
-     * @Route("/", name="wecook_homepage")
+     * @Route("/{id}/", name="wecook_get_id")
      */
-    public function homepageAction(Request $request)
+    public function getIdAction($id)
     {
         $wecookImpl = $this->get('app.wecook');
-        $data = $wecookImpl->callWecook();
+        $data = $wecookImpl->callWecook($id);
+
+        $encoders = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($data, 'json');
+        if ($jsonContent === array()){
+            return new JsonResponse($jsonContent, 400, array('Response'=>"ko"), false);
+        }else {
+            return new JsonResponse($jsonContent, 200, array('Response' => "ok"), true);
+        }
+    }
+
+    /**
+     * @Route("/ingredient/{ingredients}/", name="wecook_get_ingredient")
+     */
+    public function getRecipeWithIngredient($ingredients){
+        $wecookImpl = $this->get('app.wecook');
+        $ingredients = explode(",", $ingredients);
+        $data = array();
+        foreach ($ingredients as $ingredient) {
+            $datas = $wecookImpl->getRecipeWithIngredient($ingredient);
+            array_push($data, $datas);
+        }
 
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());

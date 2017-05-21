@@ -40,7 +40,6 @@ class WitController extends Controller
             $language = 'EN';
         }
         $data = $witImpl->connect($language, $message);
-        dump($data);
         $encoders = array(new XmlEncoder(), new JsonEncoder());
         $normalizers = array(new ObjectNormalizer());
 

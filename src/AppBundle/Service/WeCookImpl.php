@@ -11,11 +11,22 @@ namespace AppBundle\Service;
 
 class WeCookImpl
 {
-    public function callWecook()
+    public function callWecook($id = null, $ingredient = null,$with_is = null,$page = null)
     {
-
 // $url will contain the API endpoint
-        $url = "https://www.wecook.fr/web-api/recipes?id=4975";
+        $url = "https://www.wecook.fr/web-api/";
+
+        if($id !== null){
+            $url.= 'recipes?id='.$id;
+        }else if($ingredient !== null){
+            $url .= 'resources/autocomplete?q='.$ingredient.'&type=ingredient';
+        }else if($with_is !== null){
+            $url.= 'recipes/search?with_is=['.$with_is.']';
+        }else if($page !== null){
+            $url.= 'recipes/search?page='.$page;
+        }else{
+            $url.= 'recipes/search';
+        }
 
 // Make the POST request using Curl
         $ch = curl_init();
@@ -32,6 +43,16 @@ class WeCookImpl
 
 // Get the decoded body
         return $output;
+    }
+
+    public function getRecipeWithIngredient($ingredient){
+        $result = $this->callWecook(null, $ingredient);
+        $ingredientRecipes = array();
+        foreach ($result['result']['ingredient'] as $key => $item) {
+            $recipes = $this->callWecook(null, null, $item['entity_id']);
+            $ingredientRecipes[$item['name']] = $recipes['result']['resources'];
+        }
+        return $ingredientRecipes;
     }
 
 }
